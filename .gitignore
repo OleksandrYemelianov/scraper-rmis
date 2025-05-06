@@ -1,0 +1,16 @@
+.env
+node_modules/
+vendor/
+storage/*.*
+data/
+.idea
+.DS_Store
+*.log
+wa-cache
+wa-data
+wa-log
+.fw_compatible
+.files.md5
+build.php
+config.codekit
+/wa-system/webasyst/lib/updates/dev

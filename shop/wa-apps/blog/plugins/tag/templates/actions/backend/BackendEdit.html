@@ -1,0 +1,17 @@
+<div class="field">
+    <div class="name">[`Assign tags`]</div>
+    <div class="value">
+        <input id="post-tags" value="{$tags|escape}" name="plugin[tag]">
+        <span class="hint">[`Separate tags with a comma (,).`]</span>
+        <script>
+            ( function($) {
+                $('#post-tags').tagsInput({
+                    autocomplete_url:'?plugin=tag&module=backend&action=list',
+                    width: "100%",
+                    height: "auto",
+                    defaultText: '[`Add a tag`]'
+                });
+            })(jQuery);
+        </script>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+html body
+    --accent-color:                           #4879da
+    background: linear-gradient(63deg, #2847a1 0%, #6499cd 46%, #63569e 100%)
+
+.t-invite-page
+    min-height inherit
+    background-size: cover
+    display: flex
+    justify-content: center
+    align-items: center
+
+    .t-invite-block
+        padding: 1.5rem 2rem
+        margin: .5rem
+        width 550px
+        box-sizing: border-box
+        background: #fff
+        border-radius: 1rem
+        box-shadow: 0 0 100px #bbb
+
+        h1
+            text-align: center
+            margin 0
+            font-size: 2rem
+            font-weight: 600
+
+        p
+            margin 1em 0
+
+        .field
+            margin 1rem 0 0
+            padding 0
+            &:first-child
+                margin-top 0
+
+            .name:not(:empty)
+                color: #777
+                margin: 0 0 .375rem .125rem
+
+            .value
+                input
+                    box-sizing border-box
+                    &::placeholder
+                        color: #999
+                input[type=text]
+                input[type=password]
+                    width 100%
+
+        .t-actions
+            margin 2em 0 0
+
+    @import "./waid.styl";

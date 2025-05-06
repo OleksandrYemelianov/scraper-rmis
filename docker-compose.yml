@@ -1,0 +1,125 @@
+services:
+    nginx:
+        image: nginx:alpine
+        container_name: server
+        ports:
+            - "80:80"
+            - "443:443"
+            - "555:555"
+        volumes:
+            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+            - ./docker/nginx/ssl:/etc/nginx/ssl
+            - ./parser-backend:/var/www/html/parser
+            - ./shop:/var/www/html/shop
+        depends_on:
+            - parser-backend
+            - parser-frontend
+            - shop
+        networks:
+            - rmis-network
+        restart: unless-stopped
+
+    parser-backend:
+        build:
+            context: ./docker/parser-backend
+            dockerfile: Dockerfile
+        container_name: parser_back
+        volumes:
+            - ./parser-backend:/var/www/html/parser
+            - ./parser-backend/vendor:/var/www/html/parser/vendor
+            - ./docker/php/parser-backend/parser.ini:/usr/local/etc/php/conf.d/custom.ini
+        env_file:
+            - ./docker/parser-backend/.env
+        depends_on:
+            - mysql-parser
+            - redis
+        networks:
+            - rmis-network
+        restart: unless-stopped
+
+    parser-frontend:
+        build:
+            context: .
+            dockerfile: ./docker/parser-frontend/Dockerfile
+        ports:
+            - "777:777"
+        container_name: parser_front
+        volumes:
+            - ./parser-frontend:/app
+            - node_mod:/app/node_modules
+            - ./docker/parser-frontend/.env:/app/.env:ro
+        depends_on:
+            - parser-backend
+        networks:
+            - rmis-network
+        restart: unless-stopped
+
+    shop:
+        build:
+            context: ./docker/shop
+            dockerfile: Dockerfile
+        container_name: shop_rmis
+        volumes:
+            - ./shop:/var/www/html/shop
+            - ./docker/php/shop/shop.ini:/usr/local/etc/php/conf.d/custom.ini
+        env_file:
+            - ./docker/shop/.env
+        depends_on:
+            - mysql-shop
+            - redis
+        networks:
+            - rmis-network
+        restart: unless-stopped
+
+    mysql-parser:
+        image: mysql:8.0
+        container_name: mysql_parser
+        environment:
+            MYSQL_ROOT_PASSWORD: ${PARSER_DB_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${PARSER_DB_NAME}
+            MYSQL_USER: ${PARSER_DB_USER}
+            MYSQL_PASSWORD: ${PARSER_DB_PASSWORD}
+        volumes:
+            - ./mysql-parser/data:/var/lib/mysql
+            - ./mysql-parser/init.sql:/docker-entrypoint-initdb.d/init.sql
+        ports:
+            - "3310:3306"
+        networks:
+            - rmis-network
+        restart: unless-stopped
+
+    mysql-shop:
+        image: mysql:8.0
+        container_name: mysql_shop
+        environment:
+            MYSQL_ROOT_PASSWORD: ${SHOP_DB_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${SHOP_DB_NAME}
+            MYSQL_USER: ${SHOP_DB_USER}
+            MYSQL_PASSWORD: ${SHOP_DB_PASSWORD}
+        volumes:
+            - ./mysql-shop/data:/var/lib/mysql
+            - ./mysql-shop/init.sql:/docker-entrypoint-initdb.d/init.sql
+        ports:
+            - "3320:3306"
+        networks:
+            - rmis-network
+        restart: unless-stopped
+
+    redis:
+        image: redis:latest
+        container_name: redis_rmis
+        ports:
+            - "6379:6379"
+        volumes:
+            - redis-data:/data
+        networks:
+            - rmis-network
+        restart: unless-stopped
+
+networks:
+    rmis-network:
+        driver: bridge
+
+volumes:
+    redis-data:
+    node_mod:

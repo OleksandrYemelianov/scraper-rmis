@@ -1,0 +1,65 @@
+{wa_js file="js/legacy/legacy/compiled/plugin/import/settings.js"}
+  {$wa_app_static_url}plugins/import/js/settings.js
+  {$wa_app_static_url}js/jquery.form.js
+{/wa_js}
+<div class="fields rounded-block">
+  <form id="plugin-import-form" action="?plugin=import&amp;action=run" method="post">
+    {$wa->csrf()}
+
+    <h6 class="heading custom-mt-0">[`Source`]</h6>
+    <div class="field-group" id="wa-blog-import-settings">
+      <div class="field">
+        <div class="name">[`Platform`]</div>
+        <div class="value">
+          <select name="blog_import_transport">
+            <option value="">[`Select platform`]</option> {foreach $protocols as $id => $protocol}
+            <option value="{$id}">{$protocol.name|escape}</option> {/foreach}
+          </select>
+          {foreach $protocols as $id => $protocol}
+            <p id="plugin-import-transport-{$id}" class="hint plugin-import-transport-description" style="display:none;">{$protocol.description|escape}</p> {/foreach}
+        </div>
+      </div>
+    </div>
+    <div class="field-group" id="wa-blog-import-runtime-settings">
+      <!-- settings placeholder -->
+      {capture name="blog-import-settings-template-js"}{literal}
+      <div class="field">
+        <div class="name">{$name}</div>
+        <div class="value">{$control}</div>
+      </div>
+      {/literal}{/capture}
+    </div>
+    <h6 class="heading js-runtime-settings" style="display:none;">[`Target`]</h6>
+    <div class="field-group js-runtime-settings" style="display:none;">
+      {foreach $plugin_settings as $id => $setting}
+      <div class="field">{if is_string($setting)}{$setting}{else}{$setting.control}{/if}</div>
+      {/foreach}
+    </div>
+
+    {* Settings *}
+    <div class="field-group">
+
+      <div class="field">
+        <div class="value submit">
+          <input type="submit" class="button blue" value="[`Import`]" disabled="disabled" style="display:none;">
+          <div class="js-progressbar-container" style="display:none;">
+            <div class="progressbar">
+              <div class="progressbar-line-wrapper text-inside">
+                <div class="progressbar-outer">
+                  <div class="progressbar-inner" style="width: 15%;">
+                    <div class="progressbar-text">15%</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <p class="small italic">[`Please do not close your browser window and do not leave this page until the entire import process is finished.`]</p>
+          </div>
+          <span class="errormsg state-error-hint"><!-- error message placeholder --></span>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<script>
+document.title = '{$title|escape:'javascript'}';
+</script>

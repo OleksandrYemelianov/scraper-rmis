@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>{$wa->appName()} &mdash; {$wa->accountName()}</title>
+    {$wa->css()}
+    <script src="{$wa_url}wa-content/js/jquery/jquery-3.6.0.min.js"></script>
+    <script src="{$wa_url}wa-content/js/jquery-wa/wa.js?v={$wa->version(true)}"></script>
+    <script type="text/javascript" src="{$wa_app_static_url}js/dummy.js"></script>
+</head>
+<body>
+<div id="wa">
+    {$wa->header()}
+    <div id="wa-app" class="flexbox wrap-mobile">
+        <div class="sidebar flexbox overflow-visible width-adaptive-wider mobile-friendly js-app-sidebar">
+            {if $right_add}
+            <div class="sidebar-header box custom-pt-20">
+                <a id="records-add-link" href="#" class="button full-width align-center">
+                    <i class="fas fa-plus-circle custom-mr-4"></i>
+                    <span>[`Add record`]</span>
+                </a>
+            </div>
+            {/if}
+            <div class="sidebar-body">
+                <ul class="menu mobile-friendly">
+                    <li id="sb-all-contacts-li">
+                        <a class="bold" href="#/">
+                            <i class="fas fa-folder"></i>
+                            <span class="bold">[`All records`]</span>
+                            <span class="count">{count($records)}</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <h5 class="heading">[`Records`]</h5>
+                <ul class="menu mobile-friendly">
+                    {foreach from=$records key=i item=r}
+                        <li class="record-{$i}">
+                            <a href="#/record/{$i}/">
+                                <i class="fas fa-folder"></i>
+                                <span>{$r.title}</span>
+                            </a>
+                        </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+        <div id="content" class="content blank">
+            <div class="box contentbox">
+                <h1>[`Loading...`]</h1>
+            </div>
+        </div>
+    </div>
+</div>
+{if $right_add}
+    <div class="dialog" id="records-add">
+        <div class="dialog-background"></div>
+        <form class="dialog-body">
+            <a href="#" class="dialog-close js-close-dialog"><i class="fas fa-times"></i></a>
+            <h1 class="dialog-header">[`Add record`]</h1>
+            <div class="dialog-content">
+                <div class="block fields form">
+                    <div class="field-group">
+                        <div class="field">
+                            <div class="name">[`Title`]</div>
+                            <div class="value">
+                                <input type="text" value=""/>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="name">[`Content`]</div>
+                            <div class="value">
+                                <input type="text" value=""/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="dialog-footer">
+                <button type="submit">[`Add`]</button>
+                <button class="js-close-dialog button light-gray">[`cancel`]</button>
+            </footer>
+        </form>
+    </div>
+{/if}
+<script>
+    $.dummy.init();
+</script>
+</body>
+</html>

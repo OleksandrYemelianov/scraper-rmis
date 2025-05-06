@@ -1,0 +1,75 @@
+.waid-login
+    text-align center
+    position relative
+    margin-top 22px
+    margin-bottom 10px
+
+    .separator
+        display: flex
+        align-items: center
+        text-align: center
+        color: #aaa
+        line-height: 1
+
+        &::before, &::after
+            content: ''
+            flex: 1
+            border-bottom: 1px solid #ddd
+            margin-top: 4px
+        &::before
+            margin-right .35em
+        &::after
+            margin-left .35em
+
+    .waid-auth-link
+        display: inline-flex
+        justify-content: center
+        align-items: center
+        font-weight: 600
+        font-size: 20px
+        color: #333
+        user-select: none
+        background-color: #fff
+        border: 1px solid rgba(0,20,80,0.1)
+        padding: 0.5em 2em
+        line-height: 1
+        border-radius: 0.5rem
+        outline: 0 none
+        cursor: pointer
+        box-sizing: border-box
+        min-height: 2.5rem
+        transition: all 0.2s
+        &:hover
+            color: #000
+            border-color: rgba(0,20,80,0.2)
+        & > .icon
+            width: 1.125em
+            height: 1.125em
+            background-image: url('../../../../wa-content/img/webasyst-wand-bold-black.svg');
+            background-size: 100%
+            background-repeat: no-repeat
+            margin-right: 0.5em
+
+        img
+            height 16px
+            vertical-align middle
+    .hint
+        position absolute
+        top 50px
+        right 40px
+        text-decoration underline
+        font-size 14px
+        color #aaa
+        @media (max-width: 599px)
+            position relative
+            display block
+            top unset
+            right unset
+            margin-top 16px
+
+
+    .error
+        color red
+        font-size: 12px
+        display block
+        margin-top 10px
