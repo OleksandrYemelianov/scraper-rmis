@@ -23,6 +23,8 @@
 - docker/shop/.env
 - docker/parser-frontend/.env
 - docker/parser-backend/.env
+Данные авторизаций к базам данных из файла /.env должны совпадать с `docker/parser-frontend/.env`,
+`docker/parser-backend/.env`
 
 ### Scraper. Project in Development
 #### Consists of the following services
